@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  pull_request:
+    branches: [ "feature" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    - name: login docker
+      uses: docker/login-action@v2
+      with:
+          username: ${{ secrets.USER_DOCKERHUB }}
+          password: ${{ secrets.PASSWORD_DOCKERHUB }}
+
+    
+    - uses: actions/checkout@v4
+    - name: imagen docker
+      run: docker build . --file Dockerfile --tag repaso-devops:$(date +%s)
